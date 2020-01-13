@@ -9,18 +9,35 @@ export default class Search extends Component {
 
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value })
+        // axios.get(`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?page_size=9&s_track_rating=desc&q_track=${this.state.trackTitle}&&apikey=${process.env.REACT_APP_MM_KEY}`)
+        //     .then(res => {
+        //         console.log(res.data)
+        //         // this.setState({track_list: res.data.message.body.track_list})
+        //         // dispatch({
+        //         //     type: 'SEARCH_TRACK',
+        //         //     payload: res.data.message.body.track_list
+        //         // })
+        //     })
+        //     .catch(err => console.log(err))
     }
 
-    formSubmit = (e) => {
-        e.preventDefault()
+    formSubmit = (dispatch, e) => {
+        e.preventDefault();
 
         axios.get(`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?page_size=9&s_track_rating=desc&q_track=${this.state.trackTitle}&&apikey=${process.env.REACT_APP_MM_KEY}`)
             .then(res => {
                 console.log(res.data)
-                // this.setState({track_list: res.data.message.body.track_list})
+                this.setState({track_list: res.data.message.body.track_list})
+                dispatch({
+                    type: 'SEARCH_TRACK',
+                    payload: res.data.message.body.track_list
+                })
             })
             .catch(err => console.log(err))
 
+        this.setState({
+            trackTitle: ""
+        })
     }
 
 
@@ -29,6 +46,7 @@ export default class Search extends Component {
             <Consumer>
                 {
                     value => {
+                        const { dispatch } = value
                         return (
                             
                                 <div className="card card-body mb-4 p4">
@@ -38,7 +56,7 @@ export default class Search extends Component {
                                     <p className="lead text-center">Get Lyrics for any song</p>
                                 
 
-                                <form onSubmit={this.formSubmit} >
+                                <form onSubmit={this.formSubmit.bind(this, dispatch)} >
                                     <div className="form-group">
                                         <input type="text"
                                             className="form-control form-control-lg"
@@ -47,7 +65,7 @@ export default class Search extends Component {
                                             value={this.state.trackTitle}
                                             onChange={this.onChange}
                                         />
-                                        <button className="btn btn-primary">Search</button>
+                                        <button type="submit" className="btn btn-primary btn-block mt-2">Search</button>
                                     </div>
                                 </form>
 
