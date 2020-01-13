@@ -69,9 +69,9 @@ export default class Lyrics extends Component {
                         }
                     </li>
                     <li className="list-group-item">
-                        <strong>Release Date</strong>:
+                        <strong>Last Updated Date</strong>:
                             <Moment format="MM/DD/YYYY">
-                                {track.first_release_date}
+                                {track.updated_time}
                             </Moment>
                     </li>
                     

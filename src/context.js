@@ -11,6 +11,11 @@ const reducer = (state, action) => {
                 track_list: action.payload,
                 heading: 'Search Results'
             }
+        case 'SHOW_SPINNER':
+            return {
+                track_list: [],
+                heading: 'Search Results'
+            }
         default:
             return state
     }

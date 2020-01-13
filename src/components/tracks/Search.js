@@ -9,20 +9,15 @@ export default class Search extends Component {
 
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value })
-        // axios.get(`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?page_size=9&s_track_rating=desc&q_track=${this.state.trackTitle}&&apikey=${process.env.REACT_APP_MM_KEY}`)
-        //     .then(res => {
-        //         console.log(res.data)
-        //         // this.setState({track_list: res.data.message.body.track_list})
-        //         // dispatch({
-        //         //     type: 'SEARCH_TRACK',
-        //         //     payload: res.data.message.body.track_list
-        //         // })
-        //     })
-        //     .catch(err => console.log(err))
     }
 
     formSubmit = (dispatch, e) => {
         e.preventDefault();
+
+        dispatch({
+            type: 'SHOW_SPINNER',
+            
+        })
 
         axios.get(`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?page_size=9&s_track_rating=desc&q_track=${this.state.trackTitle}&&apikey=${process.env.REACT_APP_MM_KEY}`)
             .then(res => {
